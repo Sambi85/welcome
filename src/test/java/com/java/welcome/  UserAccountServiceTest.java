@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import com.java.welcome.model.UserAccount;
 import com.java.welcome.dto.UpdateUserAccountRequest;
+import com.java.welcome.dto.CreateUserAccountRequest;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -21,43 +22,50 @@ class UserAccountServiceTest {
     @Test
     void createUser() {
     
-        UserAccount user = new UserAccount();
-        user.setUsername("sam");
-        user.setEmail("sam@example.com");
-    
-        UserAccount savedUser = service.createUser(user);
-    
+        CreateUserAccountRequest request = new CreateUserAccountRequest();
+
+        request.setUsername("sam");
+        request.setEmail("sam@example.com");
+        request.setPassword("password");
+
+        UserAccount savedUser = service.createUser(request);
+
         assertNotNull(savedUser.getId());
         assertEquals("sam", savedUser.getUsername());
         assertEquals("sam@example.com", savedUser.getEmail());
+        assertEquals("password", savedUser.getPassword());
     }
 
     @Test
     void getUser() {
-        UserAccount user = new UserAccount();
-        user.setUsername("alice");
-        user.setEmail("alice@example.com");
+        CreateUserAccountRequest request = new CreateUserAccountRequest();
+        request.setUsername("alice");
+        request.setEmail("alice@example.com");
+        request.setPassword("password");
 
-        UserAccount saved = service.createUser(user);
+        UserAccount saved = service.createUser(request);
         UserAccount found = service.getUser(saved.getId());
 
         assertEquals(saved.getId(), found.getId());
         assertEquals("alice", found.getUsername());
         assertEquals("alice@example.com", found.getEmail());
+        assertEquals("password", found.getPassword());
     }
 
     @Test
     void getAllUsers() {
-        UserAccount user1 = new UserAccount();
-        user1.setUsername("diego");
-        user1.setEmail("diego@example.com");
+        CreateUserAccountRequest request1 = new CreateUserAccountRequest();
+        request1.setUsername("diego");
+        request1.setEmail("diego@example.com");
+        request1.setPassword("password1");
 
-        UserAccount user2 = new UserAccount();
-        user2.setUsername("tomas");
-        user2.setEmail("tomas@example.com");
+        CreateUserAccountRequest request2 = new CreateUserAccountRequest();
+        request2.setUsername("tomas");
+        request2.setEmail("tomas@example.com");
+        request2.setPassword("password2");
 
-        service.createUser(user1);
-        service.createUser(user2);
+        service.createUser(request1);
+        service.createUser(request2);
 
         List<UserAccount> users = service.getAllUsers();
 
@@ -67,17 +75,18 @@ class UserAccountServiceTest {
     @Test
     void updateUser() {
 
-        UserAccount user = new UserAccount();
-        user.setUsername("tomato");
-        user.setEmail("tomato@example.com");
+        CreateUserAccountRequest createRequest = new CreateUserAccountRequest();
+        createRequest.setUsername("tomato");
+        createRequest.setEmail("tomato@example.com");
+        createRequest.setPassword("password");
 
-        UserAccount saved = service.createUser(user);
+        UserAccount saved = service.createUser(createRequest);
 
-        UpdateUserAccountRequest request = new UpdateUserAccountRequest();
-        request.setUsername("Ketchup");
-        request.setEmail("ketchup@example.com");
+        UpdateUserAccountRequest updateRequest = new UpdateUserAccountRequest();
+        updateRequest.setUsername("Ketchup");
+        updateRequest.setEmail("ketchup@example.com");
 
-        UserAccount updated = service.updateUser(saved.getId(), request);
+        UserAccount updated = service.updateUser(saved.getId(), updateRequest);
 
         assertEquals("Ketchup", updated.getUsername());
         assertEquals("ketchup@example.com", updated.getEmail());
@@ -85,11 +94,12 @@ class UserAccountServiceTest {
 
     @Test
     void deleteUser() {
-        UserAccount user = new UserAccount();
-        user.setUsername("deleteMe");
-        user.setEmail("delete@example.com");
+        CreateUserAccountRequest request = new CreateUserAccountRequest();
+        request.setUsername("deleteMe");
+        request.setEmail("delete@example.com");
+        request.setPassword("password");
 
-        UserAccount saved = service.createUser(user);
+        UserAccount saved = service.createUser(request);
 
         service.deleteUser(saved.getId());
 

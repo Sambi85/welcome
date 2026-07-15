@@ -18,6 +18,9 @@ public class UserAccount {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(nullable = false)
+    private String password;
+
     @OneToMany(
         mappedBy = "userAccount",
         cascade = CascadeType.ALL,
@@ -26,11 +29,12 @@ public class UserAccount {
     private List<Task> tasks = new ArrayList<>();
 
 
-    public UserAccount() {}
+    public UserAccount() {} //WIP add... protected
 
-    public UserAccount(String username, String email) {
+    public UserAccount(String username, String email, String password) {
         this.username = username;
         this.email = email;
+        this.password = password;
     }
 
     public Long getId() {
@@ -51,6 +55,14 @@ public class UserAccount {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public List<Task> getTasks() {

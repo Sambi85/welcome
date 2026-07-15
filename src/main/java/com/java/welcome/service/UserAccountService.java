@@ -3,6 +3,7 @@ package com.java.welcome.service;
 import com.java.welcome.model.UserAccount;
 import com.java.welcome.repository.UserAccountRepository;
 import com.java.welcome.dto.UpdateUserAccountRequest;
+import com.java.welcome.dto.CreateUserAccountRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,7 +25,10 @@ public class UserAccountService {
         return repository.findById(id).orElseThrow();
     }
 
-    public UserAccount createUser(UserAccount user) {
+    public UserAccount createUser(CreateUserAccountRequest request) {
+
+        UserAccount user = new UserAccount(request.getUsername(), request.getEmail(), request.getPassword());
+
         return repository.save(user);
     }
 
@@ -32,8 +36,17 @@ public class UserAccountService {
 
         UserAccount user = repository.findById(id).orElseThrow();
 
-        user.setUsername(request.getUsername());
-        user.setEmail(request.getEmail());
+        if (request.getUsername() != null) {
+            user.setUsername(request.getUsername());
+        }
+
+        if (request.getEmail() != null) {
+            user.setEmail(request.getEmail());
+        }
+
+        if (request.getPassword() != null) {
+            user.setPassword(request.getPassword());
+        }
 
         return repository.save(user);
     }

@@ -26,9 +26,9 @@ class UserControllerIntegrationTest {
     @Autowired
     private UserAccountRepository repository;
 
-    @BeforeEach
+    @BeforeEach //Before each test, reset DB...
     void cleanDatabase() {
-        repository.deleteAll();
+        repository.deleteAll(); //JPA method
     }
 
     @Test //POST request Test
@@ -39,11 +39,12 @@ class UserControllerIntegrationTest {
                 .content("""
                     {
                         "username":"pam",
-                        "email":"pam@example.com"
+                        "email":"pam@example.com",
+                        "password":"password"
                     }
                 """))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.username").value("pam"))
+                .andExpect(jsonPath("$.username").value("pam")) //jsonPath - digs into JSON responses
                 .andExpect(jsonPath("$.email").value("pam@example.com"));
     }
 
@@ -53,6 +54,7 @@ class UserControllerIntegrationTest {
         UserAccount user = new UserAccount();
         user.setUsername("alice");
         user.setEmail("alice@example.com");
+        user.setPassword("password");
     
         UserAccount saved = repository.save(user);
     
@@ -69,10 +71,12 @@ class UserControllerIntegrationTest {
         UserAccount user1 = new UserAccount();
         user1.setUsername("joe");
         user1.setEmail("joe@example.com");
+        user1.setPassword("password");
     
         UserAccount user2 = new UserAccount();
         user2.setUsername("jane");
         user2.setEmail("jane@example.com");
+        user2.setPassword("password");
     
         repository.save(user1);
         repository.save(user2);
@@ -90,6 +94,7 @@ class UserControllerIntegrationTest {
         UserAccount user = new UserAccount();
         user.setUsername("alvin");
         user.setEmail("alvin@example.com");
+        user.setPassword("password");
     
         UserAccount saved = repository.save(user);
     
@@ -112,6 +117,7 @@ class UserControllerIntegrationTest {
         UserAccount user = new UserAccount();
         user.setUsername("deleteMe");
         user.setEmail("delete@example.com");
+        user.setPassword("password");
     
         UserAccount saved = repository.save(user);
     

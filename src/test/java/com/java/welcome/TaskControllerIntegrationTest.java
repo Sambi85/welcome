@@ -23,14 +23,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class TaskControllerIntegrationTest {
 
     @Autowired
-    private MockMvc mockMvc;
+    private MockMvc mockMvc; // tool that mocks HTTP request)
 
     @Autowired
     private TaskRepository repository;
 
-    @BeforeEach
+    @BeforeEach //Before each test, reset DB...
     void cleanDatabase() {
-        repository.deleteAll();
+        repository.deleteAll(); //JPA method
     }
 
     @Test // POST task test
@@ -59,7 +59,7 @@ class TaskControllerIntegrationTest {
     
         mockMvc.perform(get("/tasks/" + saved.getId()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(saved.getId()))
+                .andExpect(jsonPath("$.id").value(saved.getId())) //jsonPath - digs into JSON responses
                 .andExpect(jsonPath("$.title").value("Wash Dishes"))
                 .andExpect(jsonPath("$.completed").value(false));
     }

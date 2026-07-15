@@ -42,10 +42,9 @@ public class UserController {
     @PostMapping // POST create a single User + DTOs + service
     public UserAccountResponse createUser(@RequestBody CreateUserAccountRequest request) { //@Request body handles incoming payload, coverts to JSON
     
-        UserAccount user = new UserAccount(request.getUsername(), request.getEmail());  
-        UserAccount savedUser = service.createUser(user);
+        UserAccount user = service.createUser(request);
     
-        return new UserAccountResponse(savedUser.getId(), savedUser.getUsername(), savedUser.getEmail());
+        return new UserAccountResponse(user.getId(), user.getUsername(), user.getEmail());
     }
 
     @PutMapping("/{id}") // PUTS update a user by ID in URI + DTOs + service
