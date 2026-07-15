@@ -26,7 +26,7 @@ class UserAccountServiceTest {
 
         request.setUsername("sam");
         request.setEmail("sam@example.com");
-        request.setPassword("password");
+        request.setPassword("password");  // WIP - encrypt password with something like BCryptPasswordEncoder
 
         UserAccount savedUser = service.createUser(request);
 
@@ -44,7 +44,7 @@ class UserAccountServiceTest {
         request.setPassword("password");
 
         UserAccount saved = service.createUser(request);
-        UserAccount found = service.getUser(saved.getId());
+        UserAccount found = service.getUser(saved.getId()); 
 
         assertEquals(saved.getId(), found.getId());
         assertEquals("alice", found.getUsername());
@@ -78,7 +78,7 @@ class UserAccountServiceTest {
         CreateUserAccountRequest createRequest = new CreateUserAccountRequest();
         createRequest.setUsername("tomato");
         createRequest.setEmail("tomato@example.com");
-        createRequest.setPassword("password");
+        createRequest.setPassword("password"); // WIP - encrypt password with something like BCryptPasswordEncoder
 
         UserAccount saved = service.createUser(createRequest);
 
