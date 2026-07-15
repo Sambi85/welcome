@@ -1,11 +1,10 @@
 package com.java.welcome.controller;
 
 import com.java.welcome.model.Task;
+import com.java.welcome.service.TaskService;
 import com.java.welcome.dto.CreateTaskRequest;
 import com.java.welcome.dto.UpdateTaskRequest;
 import com.java.welcome.dto.TaskResponse;
-import com.java.welcome.repository.TaskRepository;
-import com.java.welcome.service.TaskService;
 
 import org.springframework.web.bind.annotation.*;
 import java.util.List;

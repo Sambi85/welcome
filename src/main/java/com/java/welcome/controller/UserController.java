@@ -1,11 +1,10 @@
 package com.java.welcome.controller;
 
 import com.java.welcome.model.UserAccount;
+import com.java.welcome.service.UserAccountService;
 import com.java.welcome.dto.CreateUserAccountRequest;
 import com.java.welcome.dto.UpdateUserAccountRequest;
 import com.java.welcome.dto.UserAccountResponse;
-import com.java.welcome.repository.UserAccountRepository;
-import com.java.welcome.service.UserAccountService;
 
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
