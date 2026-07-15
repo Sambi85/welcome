@@ -5,22 +5,24 @@ import com.java.welcome.dto.CreateTaskRequest;
 import com.java.welcome.dto.UpdateTaskRequest;
 import com.java.welcome.dto.TaskResponse;
 import com.java.welcome.repository.TaskRepository;
+import com.java.welcome.service.TaskService;
+
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
 @RequestMapping("/tasks") //Base URL for everything in this class
 public class TaskController {
-    private final TaskRepository repository;
+    private final TaskService service;
 
-    public TaskController(TaskRepository repository){
-        this.repository = repository;
+    public TaskController(TaskService service){
+        this.service = service;
     }
 
     @GetMapping // GET all Tasks
     public List<TaskResponse> getAllTasks() {
     
-        return repository.findAll()
+        return service.getAllTasks()
                 .stream()
                 .map(TaskResponse::new) //give me everything...
                 .toList();
@@ -29,7 +31,7 @@ public class TaskController {
     @GetMapping("/{id}") // GET Task by ID in URI
     public TaskResponse getTask(@PathVariable Long id) { //@PathVariable handles variables in the request URI 
 
-        Task task = repository.findById(id).orElseThrow();
+        Task task = service.getTask(id);
 
         return new TaskResponse(task);
     }
@@ -38,27 +40,22 @@ public class TaskController {
     public TaskResponse createTask(@RequestBody CreateTaskRequest request) {
     
         Task task = new Task(request.getTitle());
-        Task savedTask = repository.save(task);
+        Task savedTask = service.createTask(task);
     
         return new TaskResponse(savedTask);
     }
 
     @PutMapping("/{id}") //PUTS update a Task by ID in URI
     public TaskResponse updateTask(@PathVariable Long id, @RequestBody UpdateTaskRequest request) {
-    
-        Task task = repository.findById(id).orElseThrow();
-    
-        task.setTitle(request.getTitle());
-        task.setCompleted(request.isCompleted());
-    
-        Task updatedTask = repository.save(task);
-    
+
+        Task updatedTask = service.updateTask(id, request);
+
         return new TaskResponse(updatedTask);
     }
 
     @DeleteMapping("/{id}")  //DELETE delete a Task by ID in URI
     public void deleteTask(@PathVariable Long id) {
-        repository.deleteById(id);
+        service.deleteTask(id);
     }
 
 }
