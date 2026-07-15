@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Configuration;
 
 
 @Configuration
+// WIP - Add a profile, something like "dev"  
 public class DataLoader {
 
     @Bean // Runs after Spring Boot starts, Loads DB with Test Data
@@ -26,19 +27,19 @@ public class DataLoader {
                     new UserAccount(
                         "Kirby",
                         "Kirby@email.com",
-                        "pinkball123"
+                        "pinkball123"  //WIP - Need to encrypt passwords
                     );
                 UserAccount link =
                     new UserAccount(
                         "Link",
                         "Link@email.com",
-                        "sword123"
+                        "sword123"  //WIP - Need to encrypt passwords
                     );
                 UserAccount samus =
                     new UserAccount(
                         "Samus",
                         "Samus@email.com",
-                        "blaster123"
+                        "blaster123"  //WIP - Need to encrypt passwords
                     );
     
                 userRepository.save(kirby);
