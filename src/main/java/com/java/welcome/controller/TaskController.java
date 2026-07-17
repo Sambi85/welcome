@@ -7,6 +7,10 @@ import com.java.welcome.dto.UpdateTaskRequest;
 import com.java.welcome.dto.TaskResponse;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.http.ResponseEntity;
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -36,12 +40,15 @@ public class TaskController {
     }
 
     @PostMapping //POST create a single Task
-    public TaskResponse createTask(@RequestBody CreateTaskRequest request) {
+    public ResponseEntity<TaskResponse> createTask(@RequestBody CreateTaskRequest request) {
     
-        Task task = new Task(request.getTitle());
-        Task savedTask = service.createTask(task);
+        Task task = service.createTask(request);
+
+        TaskResponse response = new TaskResponse(task);
     
-        return new TaskResponse(savedTask);
+        return ResponseEntity
+            .created(URI.create("/tasks/" + task.getId()))
+            .body(response);
     }
 
     @PutMapping("/{id}") //PUTS update a Task by ID in URI

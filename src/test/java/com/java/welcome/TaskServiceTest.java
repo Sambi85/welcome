@@ -1,7 +1,9 @@
 package com.java.welcome.service;
 
+import com.java.welcome.dto.CreateTaskRequest;
 import com.java.welcome.dto.UpdateTaskRequest;
 import com.java.welcome.model.Task;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,11 +21,10 @@ class TaskServiceTest {
     @Test
     void createTask() {
 
-        Task task = new Task();
-        task.setTitle("Finish Homework");
-        task.setCompleted(false);
+        CreateTaskRequest request = new CreateTaskRequest();
+        request.setTitle("Finish Homework");
 
-        Task savedTask = service.createTask(task);
+        Task savedTask = service.createTask(request);
 
         assertNotNull(savedTask.getId());
         assertEquals("Finish Homework", savedTask.getTitle());
@@ -33,11 +34,10 @@ class TaskServiceTest {
     @Test
     void getTask() {
 
-        Task task = new Task();
-        task.setTitle("Wash Dishes");
-        task.setCompleted(false);
+        CreateTaskRequest request = new CreateTaskRequest();
+        request.setTitle("Wash Dishes");
 
-        Task saved = service.createTask(task);
+        Task saved = service.createTask(request);
 
         Task found = service.getTask(saved.getId());
 
@@ -49,16 +49,14 @@ class TaskServiceTest {
     @Test
     void getAllTasks() {
 
-        Task task1 = new Task();
-        task1.setTitle("Laundry");
-        task1.setCompleted(false);
+        CreateTaskRequest request1 = new CreateTaskRequest();
+        request1.setTitle("Laundry");
 
-        Task task2 = new Task();
-        task2.setTitle("Groceries");
-        task2.setCompleted(true);
+        CreateTaskRequest request2 = new CreateTaskRequest();
+        request2.setTitle("Groceries");
 
-        service.createTask(task1);
-        service.createTask(task2);
+        service.createTask(request1);
+        service.createTask(request2);
 
         List<Task> tasks = service.getAllTasks();
 
@@ -68,17 +66,16 @@ class TaskServiceTest {
     @Test
     void updateTask() {
 
-        Task task = new Task();
-        task.setTitle("Homework");
-        task.setCompleted(false);
+        CreateTaskRequest request = new CreateTaskRequest();
+        request.setTitle("Homework");
 
-        Task saved = service.createTask(task);
+        Task saved = service.createTask(request);
 
-        UpdateTaskRequest request = new UpdateTaskRequest();
-        request.setTitle("Homework Finished");
-        request.setCompleted(true);
+        UpdateTaskRequest updateRequest = new UpdateTaskRequest();
+        updateRequest.setTitle("Homework Finished");
+        updateRequest.setCompleted(true);
 
-        Task updated = service.updateTask(saved.getId(), request);
+        Task updated = service.updateTask(saved.getId(), updateRequest);
 
         assertEquals("Homework Finished", updated.getTitle());
         assertTrue(updated.isCompleted());
@@ -87,11 +84,10 @@ class TaskServiceTest {
     @Test
     void deleteTask() {
 
-        Task task = new Task();
-        task.setTitle("Delete Me");
-        task.setCompleted(false);
+        CreateTaskRequest request = new CreateTaskRequest();
+        request.setTitle("Delete Me");
 
-        Task saved = service.createTask(task);
+        Task saved = service.createTask(request);
 
         service.deleteTask(saved.getId());
 

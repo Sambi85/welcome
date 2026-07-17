@@ -7,6 +7,10 @@ import com.java.welcome.dto.UpdateUserAccountRequest;
 import com.java.welcome.dto.UserAccountResponse;
 
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.http.ResponseEntity;
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -39,11 +43,20 @@ public class UserController {
     }
 
     @PostMapping // POST create a single User + DTOs + service
-    public UserAccountResponse createUser(@RequestBody CreateUserAccountRequest request) { //@Request body handles incoming payload, coverts to JSON
+    public ResponseEntity<UserAccountResponse> createUser(
+            @RequestBody CreateUserAccountRequest request) {
     
         UserAccount user = service.createUser(request);
     
-        return new UserAccountResponse(user.getId(), user.getUsername(), user.getEmail());
+        UserAccountResponse response = new UserAccountResponse(
+            user.getId(),
+            user.getUsername(),
+            user.getEmail()
+        );
+    
+        return ResponseEntity
+                .created(URI.create("/users/" + user.getId()))
+                .body(response);
     }
 
     @PutMapping("/{id}") // PUTS update a user by ID in URI + DTOs + service

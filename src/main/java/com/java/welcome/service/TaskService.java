@@ -1,6 +1,7 @@
 package com.java.welcome.service;
 
 import com.java.welcome.model.Task;
+import com.java.welcome.dto.CreateTaskRequest;
 import com.java.welcome.repository.TaskRepository;
 import com.java.welcome.dto.UpdateTaskRequest;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,12 @@ public class TaskService {
         return repository.findById(id).orElseThrow();
     }
 
-    public Task createTask(Task task) {
+    public Task createTask(CreateTaskRequest request) {
+    
+        Task task = new Task();
+        task.setTitle(request.getTitle());
+        task.setCompleted(false); // or request.isCompleted() if your DTO has it
+    
         return repository.save(task);
     }
 

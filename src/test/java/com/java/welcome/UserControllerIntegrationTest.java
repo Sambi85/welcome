@@ -43,7 +43,7 @@ class UserControllerIntegrationTest {
                         "password":"password"
                     }
                 """))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.username").value("pam")) //jsonPath - digs into JSON responses
                 .andExpect(jsonPath("$.email").value("pam@example.com"));
     }
