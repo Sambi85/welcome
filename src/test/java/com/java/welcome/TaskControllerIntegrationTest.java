@@ -43,7 +43,7 @@ class TaskControllerIntegrationTest {
                         "completed":false
                     }
                 """))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.title").value("Finish Homework"))
                 .andExpect(jsonPath("$.completed").value(false));
     }
